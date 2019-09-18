@@ -103,17 +103,19 @@ public class MainController implements Initializable {
             alert.setTitle("Error");
             alert.show();
         } else {
-            if (txtID.getText().isEmpty() || txtName.getText().isEmpty() || comboCategory.getSelectionModel().getSelectedIndex() == -1 || datePickerBox.getEditor().getSelectedText().isEmpty()) {
+            if (txtID.getText().isEmpty() || txtName.getText().isEmpty() || comboCategory.getSelectionModel().getSelectedIndex() == -1 || datePickerBox.getEditor().getText().isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setContentText("Please fill name/ price/ category");
                 alert.show();
             } else {
+                int index = tableItem.getSelectionModel().getSelectedIndex();
                 Item item = tableItem.getSelectionModel().getSelectedItem();
                 item.setName(txtName.getText());
                 item.setId(Integer.parseInt(txtID.getText()));
                 item.setDate(datePickerBox.getValue());
                 item.setCategory(comboCategory.getSelectionModel().getSelectedItem());
+                items.set(index, item);
             }
         }
 
@@ -122,6 +124,7 @@ public class MainController implements Initializable {
         datePickerBox.getEditor().clear();
         comboCategory.getSelectionModel().select(-1);
         updateButton.setDisable(true);
+        saveButton.setDisable(false);
     }
 
     public void resetAct(ActionEvent actionEvent) {
@@ -146,7 +149,7 @@ public class MainController implements Initializable {
             alert.setTitle("Error");
             alert.show();
         } else {
-            if (txtName.getText().isEmpty() || txtID.getText().isEmpty() || datePickerBox.getEditor().getSelectedText().isEmpty() || comboCategory.getSelectionModel().getSelectedIndex() == -1) {
+            if (txtName.getText().isEmpty() || txtID.getText().isEmpty() || datePickerBox.getEditor().getText().isEmpty() || comboCategory.getSelectionModel().getSelectedIndex() == -1) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setContentText("Please fill name/ price/ category");
@@ -210,7 +213,7 @@ public class MainController implements Initializable {
             txtName.setText(item.getName());
             txtID.setText(String.valueOf(item.getId()));
             comboCategory.getSelectionModel().select(item.getCategory());
-            datePickerBox.setValue(item.getDate());
+            datePickerBox.getEditor().setText(item.getDate().toString());
             saveButton.setDisable(true);
             updateButton.setDisable(false);
         }
